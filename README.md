@@ -18,9 +18,20 @@ Started just to understand the code and got carried away with the possibilities.
 - seed data for integration test rather than using actual local db
 - cli/env
 
+### Development Setup
+
+```
+yarn
+```
 
 ### Running Tests
 
 ```
 npm t
+```
+
+### Code coverage
+
+```
+file:///<your-dir>/couch2pg/coverage/lcov-report/index.html
 ```
