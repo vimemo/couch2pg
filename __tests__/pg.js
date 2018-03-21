@@ -17,7 +17,11 @@ describe('pg', () => {
   }
 
   beforeEach(() => cleanUp(db.schema))
-  afterEach(() => cleanUp(db.schema))
+  afterEach(async () => cleanUp(db.schema))
+  afterAll(async () => {
+    await db.destroy()
+    await pg.db.destroy()
+  })
 
   test('invalid constructor', async ()=> {
     expect(() => { new Pg(PG_URL) }).toThrowError(/Identify the couchdb/)
@@ -41,6 +45,10 @@ describe('pg', () => {
     const pg2 = new Pg(PG2_URL, 'abc')
 
     beforeEach(() => cleanUp(db2.schema))
+    afterAll(async () => {
+      await db2.destroy()
+      await pg2.db.destroy()
+    })
 
     test('get and update sequences', async () => {
       await migrate(PG_URL)

@@ -22,6 +22,10 @@ describe('replicate', () => {
 
   beforeEach(() => cleanUp())
   afterEach(() => cleanUp())
+  afterAll(() => {
+    pg.destroy()
+    postg.db.destroy()
+  })
 
   test('replication', async () => {
     await migrate(PG_URL)

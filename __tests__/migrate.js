@@ -13,6 +13,7 @@ describe('migrator', () => {
 
   beforeEach(() => cleanUp())
   afterEach(() => cleanUp())
+  afterAll(() => pg.destroy())
 
   test('migration creates tables and indexes', async () => {
     const migrations = await migrate(PG_URL)
