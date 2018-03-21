@@ -1,4 +1,3 @@
-import _ from 'underscore'
 import Couch from '../lib/couch'
 import PouchDB from 'pouchdb'
 import couchDocs from '../testutils/docs.json'

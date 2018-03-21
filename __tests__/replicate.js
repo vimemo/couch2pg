@@ -1,4 +1,3 @@
-import _ from 'underscore'
 import R from 'ramda'
 import Couch from '../lib/couch'
 import Pg from '../lib/pg'
