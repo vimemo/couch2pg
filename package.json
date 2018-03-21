@@ -7,22 +7,25 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --coverage",
-    "watch:test": "jest --watch"
-  },  
+    "watch:test": "jest --watch",
+    "build": "babel ./lib -d ./dist",
+    "start": "node ./dist",
+    "dev": "babel-node ./lib"
+  },
   "dependencies": {
     "loglevel": "^1.6.1",
     "pg": "^7.4.1",
     "pg-format": "^1.0.4",
     "postgrator": "^3.5.0",
     "pouchdb": "^6.4.3",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "knex": "^0.14.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
     "jest": "^22.4.3",
-    "knex": "^0.14.4",
     "underscore": "^1.8.3"
   }
 }

@@ -27,7 +27,7 @@ yarn
 ### Running Tests
 
 ```
-npm t
+yarn test
 ```
 
 ### Code coverage
