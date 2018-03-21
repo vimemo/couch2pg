@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`migrator migration creates tables and indexes 1`] = `
+Array [
+  Object {
+    "action": "do",
+    "filename": "201606091247.do.2318-standardise-schema.sql",
+    "getSql": [Function],
+    "md5": "80caa5bfed7af40fca8f5b0d2321b96d",
+    "name": "2318-standardise-schema",
+    "version": 201606091247,
+  },
+  Object {
+    "action": "do",
+    "filename": "201606091248.do.2124-support-edit-and-delete-of-documents.sql",
+    "getSql": [Function],
+    "md5": "1e4b99477f52e456fd4876b1986ec68a",
+    "name": "2124-support-edit-and-delete-of-documents",
+    "version": 201606091248,
+  },
+  Object {
+    "action": "do",
+    "filename": "201607132040.do.2506-unique-id-constraint.sql",
+    "getSql": [Function],
+    "md5": "6e48e48a083a4a06029fe0b231d4f3b1",
+    "name": "2506-unique-id-constraint",
+    "version": 201607132040,
+  },
+  Object {
+    "action": "do",
+    "filename": "201607210832.do.2523-remove-unused-index.sql",
+    "getSql": [Function],
+    "md5": "dd4854328c111126b3418256cbbbbdae",
+    "name": "2523-remove-unused-index",
+    "version": 201607210832,
+  },
+  Object {
+    "action": "do",
+    "filename": "201611271809.do.2923-couch2-support.sql",
+    "getSql": [Function],
+    "md5": "1e35b1bd14c9c04e186128d45b3163be",
+    "name": "2923-couch2-support",
+    "version": 201611271809,
+  },
+  Object {
+    "action": "do",
+    "filename": "201803202020.do.3423-multiple-db-support.sql",
+    "getSql": [Function],
+    "md5": "e984e57b81a5639ad7efa42ee16a2e25",
+    "name": "3423-multiple-db-support",
+    "version": 201803202020,
+  },
+]
+`;
