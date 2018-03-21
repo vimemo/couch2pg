@@ -19,7 +19,7 @@ Started just to understand the code and got carried away with the possibilities.
 - cli/env
 
 
-### Test
+### Running Tests
 
 ```
 npm t
