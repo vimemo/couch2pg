@@ -37,6 +37,8 @@ describe('pg', () => {
 
     await pg.delete([docs[0].doc._id])
     expect(await pg.count()).toBe(1)
+    await pg.delete([])
+    expect(await pg.count()).toBe(1)
   })
 
   describe('sequences', () => {
