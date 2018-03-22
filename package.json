@@ -41,6 +41,7 @@
         "statements": 100
       }
     },
+    "testPathIgnorePatterns": ["mocks"],
     "verbose": true
   }
 }
