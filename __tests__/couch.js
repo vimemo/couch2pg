@@ -25,7 +25,7 @@ describe('couch', () => {
   })
 
   test('getChanges', async () => {
-    const changes = await couch.changes(0)
+    const changes = await couch.changes(10, 0)
     expect(changes.length).toBe(2)
   })
 })
