@@ -7,21 +7,11 @@ import couchdocs from '../testutils/docs.json'
 
 describe('pg', () => {
   const PG_URL = 'postgres://localhost:5432/pg-test'
-  const db = pgconnection(PG_URL)
   const pg = new Pg(PG_URL, 'xyz')
 
-  const cleanUp = async (schema) => {
-    await schema.dropTableIfExists('couchdb')
-    await schema.dropTableIfExists('couchdb_progress')
-    await schema.dropTableIfExists('couch2pg_migrations')
-  }
-
-  beforeEach(() => cleanUp(db.schema))
-  afterEach(async () => cleanUp(db.schema))
-  afterAll(async () => {
-    await db.destroy()
-    await pg.db.destroy()
-  })
+  beforeEach(async () => await pg.drop())
+  afterEach(async () => await pg.drop())
+  afterAll(async () => await pg.destroy())
 
   test('invalid constructor', async ()=> {
     expect(() => { new Pg(PG_URL) }).toThrowError(/Identify the couchdb/)
@@ -43,14 +33,10 @@ describe('pg', () => {
 
   describe('sequences', () => {
     const PG2_URL = 'postgres://localhost:5432/pg-test2'
-    const db2 = pgconnection(PG2_URL)
     const pg2 = new Pg(PG2_URL, 'abc')
 
-    beforeEach(() => cleanUp(db2.schema))
-    afterAll(async () => {
-      await db2.destroy()
-      await pg2.db.destroy()
-    })
+    beforeEach(async () => await pg2.drop())
+    afterAll(async () => await pg2.destroy())
 
     test('get and update sequences', async () => {
       await migrate(PG_URL)

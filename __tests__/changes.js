@@ -25,13 +25,11 @@ describe('underscore vs ramda', () => {
   })
 
   test('using ramda', () => {
-    const [deletes, edits] = R.partition(R.prop('deleted'), docs)
-
-    const uniqueIds = (docs) => R.compose(
+    const uniqueIds = R.compose(
       R.pluck('id'),
       R.uniqBy(R.prop('id'))
-    )(docs)
-
+    )
+    const [deletes, edits] = R.partition(R.prop('deleted'), docs)
     expect(uniqueIds(deletes)).toEqual([1,4])
     expect(uniqueIds(edits)).toEqual([2,3])
   })
