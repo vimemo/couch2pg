@@ -14,14 +14,14 @@ describe('pg', () => {
   afterAll(async () => await pg.destroy())
 
   test('invalid constructor', async ()=> {
-    expect(() => { new Pg(PG_URL) }).toThrowError(/Identify the couchdb/)
+    expect(() => { new Pg(PG_URL) }).toThrowError(/Missing/)
   })
 
   test('insert, docs, delete, count', async () => {
     await migrate(PG_URL)
 
     await pg.insert(couchdocs)
-    let docs = await pg.docs()
+    const docs = await pg.docs()
     expect(docs.length).toBe(2)
     expect(docs).toMatchSnapshot()
     await pg.delete([docs[0].doc._id])

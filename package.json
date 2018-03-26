@@ -13,16 +13,17 @@
     "dev": "babel-node ./lib"
   },
   "dependencies": {
+    "knex": "^0.14.4",
     "loglevel": "^1.6.1",
     "pg": "^7.4.1",
     "pg-format": "^1.0.4",
     "postgrator": "^3.5.0",
     "pouchdb": "^6.4.3",
-    "ramda": "^0.25.0",
-    "knex": "^0.14.4"
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
     "jest": "^22.4.3",
@@ -41,7 +42,9 @@
         "statements": 100
       }
     },
-    "testPathIgnorePatterns": ["mocks"],
+    "testPathIgnorePatterns": [
+      "mocks"
+    ],
     "verbose": true
   }
 }
