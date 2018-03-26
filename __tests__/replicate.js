@@ -28,16 +28,48 @@ describe('replicate', () => {
   describe('replication', () => {
     beforeEach(async () => {
        couch = new Couch(COUCH_URL)
+       // Starting with 10 docs
        await couch.db.bulkDocs(random.docs(10))
     })
 
-    test('replication', async () => {
+    test('initial and no-change replication', async () => {
       await migrate(PG_URL)
-      await new Couch2Pg(couch, pg).replicate()
-      expect(await pg.count()).toEqual(await couch.count())
-      // const sortedCouchDocs = await couch.docs(null, true)
-      // const sortedPgDocs = await pg.docs(true)
-      // expect(sortedPgDocs[0].doc).toEqual(sortedCouchDocs[0])
+      const couch2pg = new Couch2Pg(couch, pg)
+      await couch2pg.replicate()
+      expect(await pg.count()).toEqual(10)
+      expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+
+      //No change replication
+      await couch2pg.replicate()
+      expect(await pg.count()).toEqual(10)
+      expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+    })
+
+    describe('subsequent creations, updates and deletions', () => {
+      beforeEach(async () => {
+        const docs = await couch.docs()
+        const [deletes, updates] = R.splitAt(5, docs)
+
+        // Removing 5 docs
+        deletes.forEach((doc) => doc._deleted = true)
+        await couch.db.bulkDocs(deletes)
+
+        // Updating 5 docs
+        updates.forEach((doc) => doc.data = random.label())
+        await couch.db.bulkDocs(updates)
+
+        // Inserting 10 docs
+        await couch.db.bulkDocs(random.docs(10))
+      })
+
+      test('after updates, deletes, etc', async () => {
+        await migrate(PG_URL)
+        await new Couch2Pg(couch, pg).replicate()
+
+        expect(await pg.count()).toEqual(15)
+        expect(await pg.count()).toEqual(await couch.count())
+        expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+      })
     })
 
     test('should handle documents with \\u0000 in it', async () => {

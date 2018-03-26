@@ -15,6 +15,11 @@ describe('couch', () => {
   describe('couch operations', () => {
     beforeEach(async () => await new PouchDB(COUCH_URL).bulkDocs(docs))
 
+    test('empty constructor', () => {
+      expect(() => new Couch()).toThrowError(/Missing Parameter/)
+      expect.assertions(1)
+    })
+
     test('docs, count', async () => {
       expect((await couch.docs())[0].doc.rev).toBe(docs[0].doc.rev)
       expect((await couch.count()) === 2).toBe(true)

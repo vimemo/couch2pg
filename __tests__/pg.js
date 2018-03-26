@@ -14,7 +14,9 @@ describe('pg', () => {
   afterAll(async () => await pg.destroy())
 
   test('invalid constructor', async ()=> {
-    expect(() => { new Pg(PG_URL) }).toThrowError(/Missing/)
+    expect(() => new Pg()).toThrowError(/Missing Parameter/)
+    expect(() => new Pg(PG_URL)).toThrowError(/Missing Parameter/)
+    expect.assertions(2)
   })
 
   test('insert, docs, delete, count', async () => {
@@ -44,13 +46,13 @@ describe('pg', () => {
       const seq = await pg.seq()
       expect(seq).toBe(0)
       await pg.updateSeq(3)
-      expect(await pg.seq()).toBe(3)
+      expect(await pg.seq()).toBe('3')
 
       const seq2 = await pg2.seq()
       expect(seq2).toBe(0)
       await pg2.updateSeq(13)
-      expect(await pg2.seq()).toBe(13)
-      expect(await pg.seq()).toBe(3)
+      expect(await pg2.seq()).toBe('13')
+      expect(await pg.seq()).toBe('3')
     })
   })
 })

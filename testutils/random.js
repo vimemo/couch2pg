@@ -8,11 +8,11 @@ const WORDS = [
 
 const number = (max) => Math.floor(Math.random() * max)
 const word = (idx) => R.nth(number(WORDS[idx].length), WORDS[idx])
-const label = R.join('-', [word(0), word(1), word(2)])
+export const label = () => R.join('-', [word(0), word(1), word(2)])
 
 export const docs = (total) => {
   return R.map(
-    R.compose(R.objOf('data'), () => label),
+    R.compose(R.objOf('data'), () => label()),
     R.range(0, total)
   )
 }
