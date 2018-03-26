@@ -1,10 +1,10 @@
-import migrate from '../lib/migrator'
+import migrate from '../lib/pgmigration'
 import db from '../lib/pgconnection'
 
 const PG_URL = 'postgres://localhost:5432/migration-test'
 const pg = db(PG_URL)
 
-describe('migrator', () => {
+describe('migration', () => {
   const cleanUp = async () => {
     await pg.schema.dropTableIfExists('couchdb')
     await pg.schema.dropTableIfExists('couchdb_progress')

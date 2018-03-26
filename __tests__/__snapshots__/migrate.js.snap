@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`migrator migration creates tables and indexes 1`] = `
+exports[`migration migration creates tables and indexes 1`] = `
 Array [
   Object {
     "action": "do",

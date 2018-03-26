@@ -1,31 +1,34 @@
-import Couch from '../lib/couch'
 import PouchDB from 'pouchdb'
-import couchDocs from '../testutils/docs.json'
+import Couch from '../lib/couch'
+import docs from '../testutils/docs.json'
 
 describe('couch', () => {
   const DB_NAME = 'couch-test'
   const COUCH_URL = `http://admin:pass@localhost:5984/${DB_NAME}`
   const couch = new Couch(COUCH_URL)
 
-  const DOCS_TO_CREATE = 2
-
   const cleanUp = async () => await new PouchDB(COUCH_URL).destroy()
 
-  beforeEach(async () => {
-    cleanUp()
-    await new PouchDB(COUCH_URL).bulkDocs(couchDocs)
-  })
-
+  beforeEach(async () => cleanUp())
   afterEach(() => cleanUp())
 
-  test('docs, count', async () => {
-    const docs = await couch.docs()
-    expect(docs[0].doc.rev).toBe(couchDocs[0].doc.rev)
-    expect((await couch.count()) === 2).toBe(true)
-  })
+  describe('couch operations', () => {
+    beforeEach(async () => await new PouchDB(COUCH_URL).bulkDocs(docs))
 
-  test('getChanges', async () => {
-    const changes = await couch.changes(10, 0)
-    expect(changes.length).toBe(2)
+    test('docs, count', async () => {
+      expect((await couch.docs())[0].doc.rev).toBe(docs[0].doc.rev)
+      expect((await couch.count()) === 2).toBe(true)
+    })
+
+    test('docs by keys', async () => {
+      const saved = (await couch.docs())[0]
+      const doc = (await couch.docs([saved._id]))[0]
+      expect(doc.id).toEqual(saved.id)
+    })
+
+    test('getChanges limit 10', async () => {
+      const changes = await couch.changes(10, 0)
+      expect(changes.length).toBe(2)
+    })
   })
 })

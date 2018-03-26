@@ -1,5 +1,5 @@
 import Couch2Pg from '../lib/couch2pg'
-import Couch, {mockDocsByIds} from '../lib/couch'
+import Couch, {mockDocs} from '../lib/couch'
 import Pg from '../lib/pg'
 jest.mock('../lib/couch', () => require('./__mocks/couch'))
 jest.mock('../lib/pg', () => require('./__mocks/pg'))
@@ -16,8 +16,8 @@ describe('importer', () => {
     test('gets rid of duplicates from changes feed', async () => {
       expect(await pg.seq()).toBe(0)
       await new Couch2Pg(couch, pg).replicate()
-      expect(mockDocsByIds).toHaveBeenCalledTimes(1)
-      expect(mockDocsByIds.mock.calls[0][0]).toEqual(['123'])
+      expect(mockDocs).toHaveBeenCalledTimes(1)
+      expect(mockDocs.mock.calls[0][0]).toEqual(['123'])
     })
   })
 })

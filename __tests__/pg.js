@@ -1,4 +1,4 @@
-import migrate from '../lib/migrator'
+import migrate from '../lib/pgmigration'
 import Couch from '../lib/Couch'
 import Pg from '../lib/Pg'
 import pgconnection from '../lib/pgconnection'
@@ -24,7 +24,6 @@ describe('pg', () => {
     let docs = await pg.docs()
     expect(docs.length).toBe(2)
     expect(docs).toMatchSnapshot()
-
     await pg.delete([docs[0].doc._id])
     expect(await pg.count()).toBe(1)
     await pg.delete([])

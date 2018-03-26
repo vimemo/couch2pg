@@ -27,10 +27,9 @@ describe('IO failure propagation', () => {
   })
 
   test('accessing allDocs from couchdb', async () => {
-    const mockDocsByIds = jest.fn()
     Couch.mockImplementationOnce(() => {
       return {
-        docsByIds: () => { throw new Error('docs') },
+        docs: () => { throw new Error('docs') },
         changes: () => {
           return [
             [ {id:1, seq: 1}, {id:2, deleted: true, seq: 2} ],
@@ -42,10 +41,10 @@ describe('IO failure propagation', () => {
   })
 
   test('attempting to delete docs', async () => {
-    const mockDocsByIds = jest.fn()
+    const mockDocs = jest.fn()
     Couch.mockImplementationOnce(() => {
       return {
-        docsByIds: mockDocsByIds,
+        docs: mockDocs,
         changes: () => {
           return [[ {id:10, seq: 1}, {id:2, deleted: true, seq: 2}], 2]
         }}})
@@ -56,15 +55,15 @@ describe('IO failure propagation', () => {
       }})
     const couch2pg = new Couch2Pg(new Couch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('delete'))
-    expect(mockDocsByIds).toHaveBeenCalledTimes(1)
-    expect(mockDocsByIds.mock.calls[0][0]).toEqual([10])
+    expect(mockDocs).toHaveBeenCalledTimes(1)
+    expect(mockDocs.mock.calls[0][0]).toEqual([10])
   })
 
   test('trying to delete existing docs before adding them', async () => {
-    const mockDocsByIds = jest.fn()
+    const mockDocs = jest.fn()
     Couch.mockImplementationOnce(() => {
       return {
-        docsByIds: mockDocsByIds,
+        docs: mockDocs,
         changes: () => {
           return [[ {id:1, seq: 1}, {id:2, deleted: true, seq: 2}], 2]
         }}})
