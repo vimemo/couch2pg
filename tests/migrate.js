@@ -30,7 +30,7 @@ describe('migration', () => {
   })
 
   test('migration to an existing seq without source', async () => {
-    await pg.raw(`CREATE TABLE couchdb_progress(seq varchar)`)
+    await pg.raw('CREATE TABLE couchdb_progress(seq varchar)')
     await pg('couchdb_progress').insert({seq:'44'})
     await migrate(PG_URL)
     const rows = (await pg.raw('select * from couchdb_progress')).rows
