@@ -5,7 +5,7 @@ import R from 'ramda'
 // underscore/ramda choice
 describe('underscore vs ramda', () => {
   let docs = null
-  beforeEach(() =>{
+  beforeEach(() => {
     docs = [
       {id: 1, deleted: true},
       {id: 2, simon: '1'},
@@ -16,7 +16,7 @@ describe('underscore vs ramda', () => {
   test('using underscore', () => {
     const [deletes, edits] = _.partition(docs, doc => doc.deleted)
     const docsToDelete   = _.uniq(deletes, _.property('id')),
-        docsToDownload = _.uniq(edits, _.property('id'))
+      docsToDownload = _.uniq(edits, _.property('id'))
 
     const deletedDocIds = _.pluck(docsToDelete, 'id')
     const editedDocIds = _.pluck(docsToDownload, 'id')

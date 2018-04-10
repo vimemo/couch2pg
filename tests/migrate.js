@@ -22,7 +22,7 @@ describe('migration', () => {
     expect(await pg.schema.hasTable('couchdb_progress')).toBe(true)
     expect(await pg.schema.hasTable('couch2pg_migrations')).toBe(true)
 
-    const INDEXES_QUERY = "select * from pg_indexes where tablename not like 'pg%'"
+    const INDEXES_QUERY = 'select * from pg_indexes where tablename not like \'pg%\''
     const indexes = (await pg.schema.raw(INDEXES_QUERY)).rows
     expect(indexes[0].indexname).toBe('couch2pg_migrations_pkey')
     expect(indexes[1].indexname).toBe('couchdb_doc_type')

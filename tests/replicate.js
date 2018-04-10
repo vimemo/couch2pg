@@ -1,4 +1,4 @@
-import R from 'ramda'
+import {splitAt} from 'ramda'
 import Pouch from '../lib/pouch'
 import Pg from '../lib/pg'
 import db from '../lib/pgconnection'
@@ -27,9 +27,9 @@ describe('replicate', () => {
 
   describe('replication', () => {
     beforeEach(async () => {
-       couch = new Pouch(COUCH_URL)
-       // Starting with 10 docs
-       await couch.db.bulkDocs(random.docs(10))
+      couch = new Pouch(COUCH_URL)
+      // Starting with 10 docs
+      await couch.db.bulkDocs(random.docs(10))
     })
 
     test('initial and no-change replication', async () => {
@@ -48,7 +48,7 @@ describe('replicate', () => {
     describe('subsequent creations, updates and deletions', () => {
       beforeEach(async () => {
         const docs = await couch.docs()
-        const [deletes, updates] = R.splitAt(5, docs)
+        const [deletes, updates] = splitAt(5, docs)
 
         // Removing 5 docs
         deletes.forEach((doc) => doc._deleted = true)
