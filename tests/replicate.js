@@ -4,7 +4,7 @@ import Pg from '../lib/pg'
 import db from '../lib/pgconnection'
 import migrate from '../lib/pgmigration'
 import Couch2Pg from '../lib/couch2pg'
-import * as random from '../testutils/random'
+import * as random from './mocks/random'
 
 describe('replicate', () => {
   const COUCH_URL = 'http://admin:pass@localhost:5984/couchtest'

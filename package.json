@@ -6,8 +6,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "test": "jest --coverage",
-    "watch:test": "jest --watch",
+    "test": "jest --coverage --projects jest-*.config.js",
+    "watch:test": "jest --projects jest-*.config.js --watch",
     "build": "babel ./lib -d ./dist",
     "start": "node ./dist",
     "dev": "babel-node ./lib"
@@ -27,15 +27,19 @@
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.19.1",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-jest": "^21.15.0",
+    "eslint-plugin-prettier": "^2.6.0",
     "jest": "^22.4.3",
     "jest-runner-eslint": "^0.4.0",
+    "jest-runner-prettier": "^0.2.2",
     "underscore": "^1.8.3"
   },
   "jest": {
     "runner": "jest-runner-eslint",
-    "displayName": "lint",
-    "testMatch": ["<rootDir>/tests/**/*.js"],
+    "testMatch": [
+      "<rootDir>/tests/**/*.js"
+    ],
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "lib/**/*.{js}"

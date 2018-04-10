@@ -13,7 +13,7 @@ Started just to understand the code and got carried away with the possibilities.
 
 ### TODO
 
-- linting
+- integrate with travis
 - seed data for integration test rather than using actual local db
 - cli/env
 

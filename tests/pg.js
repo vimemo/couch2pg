@@ -3,7 +3,7 @@ import Pouch from '../lib/Pouch'
 import Pg from '../lib/Pg'
 import pgconnection from '../lib/pgconnection'
 
-import couchdocs from '../testutils/docs.json'
+import couchdocs from './mocks/docs.json'
 
 describe('pg', () => {
   const PG_URL = 'postgres://localhost:5432/pg-test'

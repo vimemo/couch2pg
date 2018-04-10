@@ -1,5 +1,5 @@
 import R from 'ramda'
-import * as random from '../testutils/random'
+import * as random from './mocks/random'
 
 describe('random', () => {
   test('docs', () => {

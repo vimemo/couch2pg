@@ -4,7 +4,7 @@
     "node": true,
     "jest/globals": true
   },
-  "extends": "plugin:jest/recommended",
+  "extends": ["plugin:jest/recommended"],
   "parserOptions": {
     "ecmaVersion": 8,
     "sourceType": "module"

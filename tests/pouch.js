@@ -1,6 +1,6 @@
 import PouchDB from 'pouchdb'
 import Pouch from '../lib/pouch'
-import docs from '../testutils/docs.json'
+import docs from './mocks/docs.json'
 
 describe('couch', () => {
   const DB_NAME = 'couch-test'
