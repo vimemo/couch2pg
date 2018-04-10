@@ -27,6 +27,7 @@ yarn
 
 ```
 yarn test
+yarn watch:test
 ```
 
 ### Code coverage
@@ -40,6 +41,8 @@ file:///<your-dir>/couch2pg/coverage/lcov-report/index.html
 - jest: snapshot testing, mocking support, performant
 
 https://medium.com/airbnb-engineering/unlocking-test-performance-migrating-from-mocha-to-jest-2796c508ec50
+
+https://www.youtube.com/watch?v=NtjyeojAOBs
 
 - ramda
 

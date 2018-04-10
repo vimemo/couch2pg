@@ -11,13 +11,13 @@ describe('replicate', () => {
   const PG_URL = 'postgres://localhost:5432/pgtest'
 
   const pg = new Pg(PG_URL, COUCH_URL)
-  let couch
+  let pouch
 
   const cleanUp = async () => {
     await pg.drop()
-    if(couch) {
-      await couch.db.destroy()
-      couch = null
+    if(pouch) {
+      await pouch.db.destroy()
+      pouch = null
     }
   }
 
@@ -27,54 +27,65 @@ describe('replicate', () => {
 
   describe('replication', () => {
     beforeEach(async () => {
-      couch = new Pouch(COUCH_URL)
+      pouch = new Pouch(COUCH_URL)
       // Starting with 10 docs
-      await couch.db.bulkDocs(random.docs(10))
+      await pouch.db.bulkDocs(random.docs(10))
     })
 
     test('initial and no-change replication', async () => {
       await migrate(PG_URL)
-      const couch2pg = new Couch2Pg(couch, pg)
+      const couch2pg = new Couch2Pg(pouch, pg)
       await couch2pg.replicate()
       expect(await pg.count()).toEqual(10)
-      expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+      expect(await pg.sortedDocs()).toEqual(await pouch.sortedDocs())
 
       //No change replication
       await couch2pg.replicate()
       expect(await pg.count()).toEqual(10)
-      expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+      expect(await pg.sortedDocs()).toEqual(await pouch.sortedDocs())
     })
 
     describe('subsequent creations, updates and deletions', () => {
       beforeEach(async () => {
-        const docs = await couch.docs()
+        const docs = await pouch.docs()
         const [deletes, updates] = splitAt(5, docs)
 
         // Removing 5 docs
         deletes.forEach((doc) => doc._deleted = true)
-        await couch.db.bulkDocs(deletes)
+        await pouch.db.bulkDocs(deletes)
 
         // Updating 5 docs
         updates.forEach((doc) => doc.data = random.label())
-        await couch.db.bulkDocs(updates)
+        await pouch.db.bulkDocs(updates)
 
         // Inserting 10 docs
-        await couch.db.bulkDocs(random.docs(10))
+        await pouch.db.bulkDocs(random.docs(10))
       })
 
       test('after updates, deletes, etc', async () => {
         await migrate(PG_URL)
-        await new Couch2Pg(couch, pg).replicate()
+
+        await pg.db('couchdb_progress').insert({seq: 30, source: 'default-source'})
+        await migrate(PG_URL)
+
+        let row = (await pg.db.raw('select * from couchdb_progress')).rows[0]
+        expect(row.seq).toBe('30')
+        expect(row.source).toEqual('default-source')
+
+        await new Couch2Pg(pouch, pg).replicate()
+
+        // row = (await pg.db.raw('select * from couchdb_progress')).rows[0]
+        // expect(row.source).toEqual('http://localhost:5984/couchtest')
 
         expect(await pg.count()).toEqual(15)
-        expect(await pg.count()).toEqual(await couch.count())
-        expect(await pg.sortedDocs()).toEqual(await couch.sortedDocs())
+        expect(await pg.count()).toEqual(await pouch.count())
+        expect(await pg.sortedDocs()).toEqual(await pouch.sortedDocs())
       })
     })
 
     test('should handle documents with \\u0000 in it', async () => {
       await migrate(PG_URL)
-      const couch2pg = new Couch2Pg(couch, pg)
+      const couch2pg = new Couch2Pg(pouch, pg)
       couch2pg.couch.db.put({
         _id: 'u0000-escaped',
         data: 'blah blah \u0000\u0000\u0000\u0000 blah'

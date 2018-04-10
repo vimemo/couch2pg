@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --coverage --projects jest-*.config.js",
-    "watch:test": "jest --projects jest-*.config.js --watch",
+    "watch:test": "jest --coverage --projects jest-*.config.js --watch",
     "build": "babel ./lib -d ./dist",
     "start": "node ./dist",
     "dev": "babel-node ./lib"
@@ -36,7 +36,6 @@
     "underscore": "^1.8.3"
   },
   "jest": {
-    "runner": "jest-runner-eslint",
     "testMatch": [
       "<rootDir>/tests/**/*.js"
     ],

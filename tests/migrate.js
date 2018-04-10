@@ -28,4 +28,15 @@ describe('migration', () => {
     expect(indexes[1].indexname).toBe('couchdb_doc_type')
     expect(indexes[2].indexname).toBe('couchdb_doc_uuid')
   })
+
+  test('migration to an existing seq without source', async () => {
+    await pg.raw(`CREATE TABLE couchdb_progress(seq varchar)`)
+    await pg('couchdb_progress').insert({seq:'44'})
+    await migrate(PG_URL)
+    const rows = (await pg.raw('select * from couchdb_progress')).rows
+    console.log(rows)
+    expect(rows.length).toBe(1)
+    expect(rows[0].seq).toBe('44')
+    expect(rows[0].source).toEqual('default-source')
+  })
 })
