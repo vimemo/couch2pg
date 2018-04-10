@@ -1,5 +1,5 @@
 import migrate from '../lib/pgmigration'
-import Couch from '../lib/Couch'
+import Pouch from '../lib/Pouch'
 import Pg from '../lib/Pg'
 import pgconnection from '../lib/pgconnection'
 

@@ -1,14 +1,14 @@
 import Couch2Pg from '../lib/couch2pg'
-import Couch, {mockDocs} from '../lib/couch'
+import Pouch, {mockDocs} from '../lib/pouch'
 import Pg from '../lib/pg'
-jest.mock('../lib/couch', () => require('./__mocks/couch'))
+jest.mock('../lib/pouch', () => require('./__mocks/pouch'))
 jest.mock('../lib/pg', () => require('./__mocks/pg'))
 
 describe('importer', () => {
   let couch, pg
 
   beforeEach(() => {
-    couch = new Couch()
+    couch = new Pouch()
     pg = new Pg()
   })
 

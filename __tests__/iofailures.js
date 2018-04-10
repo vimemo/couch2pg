@@ -1,8 +1,8 @@
 import Couch2Pg from '../lib/couch2pg'
-import Couch from '../lib/couch'
+import Pouch from '../lib/pouch'
 import Pg from '../lib/pg'
 
-jest.mock('../lib/couch', () => require('./__mocks/couch'))
+jest.mock('../lib/pouch', () => require('./__mocks/pouch'))
 jest.mock('../lib/pg', () => require('./__mocks/pg'))
 
 describe('IO failure propagation', () => {
@@ -17,17 +17,17 @@ describe('IO failure propagation', () => {
   })
 
   test('accessing changes from couchdb', async () => {
-    Couch.mockImplementationOnce(() => {
+    Pouch.mockImplementationOnce(() => {
       return {
         changes: () => { throw new Error('changes') }
       }})
 
-    const couch2pg = new Couch2Pg(new Couch(), new Pg())
+    const couch2pg = new Couch2Pg(new Pouch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('changes'))
   })
 
   test('accessing allDocs from couchdb', async () => {
-    Couch.mockImplementationOnce(() => {
+    Pouch.mockImplementationOnce(() => {
       return {
         docs: () => { throw new Error('docs') },
         changes: () => {
@@ -36,13 +36,13 @@ describe('IO failure propagation', () => {
             2
           ]
         }}})
-    const couch2pg = new Couch2Pg(new Couch(), new Pg())
+    const couch2pg = new Couch2Pg(new Pouch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('docs'))
   })
 
   test('attempting to delete docs', async () => {
     const mockDocs = jest.fn()
-    Couch.mockImplementationOnce(() => {
+    Pouch.mockImplementationOnce(() => {
       return {
         docs: mockDocs,
         changes: () => {
@@ -53,7 +53,7 @@ describe('IO failure propagation', () => {
         seq: () => 0,
         delete: () => { throw new Error('delete') }
       }})
-    const couch2pg = new Couch2Pg(new Couch(), new Pg())
+    const couch2pg = new Couch2Pg(new Pouch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('delete'))
     expect(mockDocs).toHaveBeenCalledTimes(1)
     expect(mockDocs.mock.calls[0][0]).toEqual([10])
@@ -61,7 +61,7 @@ describe('IO failure propagation', () => {
 
   test('trying to delete existing docs before adding them', async () => {
     const mockDocs = jest.fn()
-    Couch.mockImplementationOnce(() => {
+    Pouch.mockImplementationOnce(() => {
       return {
         docs: mockDocs,
         changes: () => {
@@ -78,7 +78,7 @@ describe('IO failure propagation', () => {
     // var dbQuery = sinon.stub(db, 'query')
     // dbQuery.onCall(1).returns(failedPromise('Deleting stub to store'))
 
-    const couch2pg = new Couch2Pg(new Couch(), new Pg())
+    const couch2pg = new Couch2Pg(new Pouch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('deleting stub'))
   })
 
@@ -93,7 +93,7 @@ describe('IO failure propagation', () => {
     // TODO verify this
     // dbQuery.onCall(1).returns(successfulPromise())
     // dbQuery.withArgs(sinon.match(/INSERT INTO couchdb/)).returns(failedPromise('insert docs'))
-    const couch2pg = new Couch2Pg(new Couch(), new Pg())
+    const couch2pg = new Couch2Pg(new Pouch(), new Pg())
     await expect(couch2pg.replicate()).rejects.toEqual(Error('insert'))
   })
 

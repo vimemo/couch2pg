@@ -1,5 +1,5 @@
 import R from 'ramda'
-import Couch from '../lib/couch'
+import Pouch from '../lib/pouch'
 import Pg from '../lib/pg'
 import db from '../lib/pgconnection'
 import migrate from '../lib/pgmigration'
@@ -27,7 +27,7 @@ describe('replicate', () => {
 
   describe('replication', () => {
     beforeEach(async () => {
-       couch = new Couch(COUCH_URL)
+       couch = new Pouch(COUCH_URL)
        // Starting with 10 docs
        await couch.db.bulkDocs(random.docs(10))
     })
