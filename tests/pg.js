@@ -8,7 +8,7 @@ import couchdocs from './mocks/docs.json'
 
 describe('pg', () => {
   const COUCH_URL = 'http://localhost:5984/something'
-  const PG_URL = 'postgres://localhost:5432/pg-test'
+  const PG_URL = 'postgres://localhost:5432/pgtest'
 
   const pg = new Pg(PG_URL, COUCH_URL)
 
@@ -23,7 +23,15 @@ describe('pg', () => {
     await ensureDatabaseExists(PG_URL)
   })
   afterEach(async () => await pg.drop())
-  afterAll(async () => await pg.destroy())
+  afterAll(async () => {
+    try {
+      await pg.destroy()
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }
+    }
+  })
 
   test('invalid constructor', async ()=> {
     expect(() => new Pg()).toThrowError(/Missing Parameter/)
@@ -50,10 +58,18 @@ describe('pg', () => {
   })
 
   describe('sequences', () => {
-    const PG2_URL = 'postgres://localhost:5432/pg-test2'
+    const PG2_URL = 'postgres://localhost:5432/pgtest2'
     const pg2 = new Pg(PG2_URL, 'http://localhost:5984/secondpgdb')
 
-    beforeEach(async () => await pg2.drop())
+    beforeEach(async () => {
+      try {
+        await pg2.drop()
+      } catch(err) {
+        if(!err.message.includes('does not exist')){//db does not exist
+          throw err
+        }
+      }
+    })
     afterAll(async () => await pg2.destroy())
 
     test('get and update sequences', async () => {
