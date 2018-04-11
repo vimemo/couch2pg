@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/vimemo/couch2pg.svg?branch=master)](https://travis-ci.org/vimemo/couch2pg)
 [![Coverage Status](https://coveralls.io/repos/github/vimemo/couch2pg/badge.svg?branch=master)](https://coveralls.io/github/vimemo/couch2pg?branch=master)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ### TODO
 
