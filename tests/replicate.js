@@ -20,7 +20,7 @@ describe('replicate', () => {
         await pouch.db.destroy()
         pouch = null
       }
-      ensureDatabaseExists(PG_URL)
+      await ensureDatabaseExists(PG_URL)
     } catch(err) {
       if(!err.message.includes('does not exist')){//db does not exist
         throw err
@@ -30,14 +30,14 @@ describe('replicate', () => {
 
   beforeEach(() => cleanUp())
   afterEach(() => cleanUp())
-  afterAll(() => {
+  afterAll(async () => {
     try {
-      pg.destroy()
+      await pg.destroy()
     } catch(err) {
       if(!err.message.includes('does not exist')){//db does not exist
         throw err
       }
-    }      
+    }
   })
 
   describe('replication', () => {
