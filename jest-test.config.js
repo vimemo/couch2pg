@@ -5,10 +5,10 @@ module.exports = {
   'collectCoverageFrom': ['<rootDir>/lib/**/*.{js}'],
   'coverageThreshold': {
     'global': {
-      'branches': 60,
+      'branches': 66,
       'functions': 90,
       'lines': 90,
-      'statements': 100
+      'statements': 90
     }
   },
   'testPathIgnorePatterns': ['mocks']
