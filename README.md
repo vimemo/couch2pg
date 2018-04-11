@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/vimemo/couch2pg.svg?branch=master)](https://travis-ci.org/vimemo/couch2pg)
 
+[![Coverage Status](https://coveralls.io/repos/github/vimemo/couch2pg/badge.svg?branch=master)](https://coveralls.io/github/vimemo/couch2pg?branch=master)
+
 ### Refactor motivation
 
 Started just to understand the code and got carried away with the possibilities. Want to at least have a conversation about:

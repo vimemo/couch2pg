@@ -1,5 +1,5 @@
 import migrate from '../lib/pgmigration'
-import db from '../lib/pgconnection'
+import db, {ensureDatabaseExists} from '../lib/pgconnection'
 
 const PG_URL = 'postgres://localhost:5432/migration-test'
 const pg = db(PG_URL)
@@ -11,7 +11,16 @@ describe('migration', () => {
     await pg.schema.dropTableIfExists('couch2pg_migrations')
   }
 
-  beforeEach(() => cleanUp())
+  beforeEach(async () => {
+    try {
+      await cleanUp()
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }
+    }
+    ensureDatabaseExists(PG_URL)
+  })
   afterEach(() => cleanUp())
   afterAll(() => pg.destroy())
 
@@ -27,14 +36,15 @@ describe('migration', () => {
     expect(indexes[0].indexname).toBe('couch2pg_migrations_pkey')
     expect(indexes[1].indexname).toBe('couchdb_doc_type')
     expect(indexes[2].indexname).toBe('couchdb_doc_uuid')
-    
+
     const seqs = (await pg.raw('select * from couchdb_progress')).rows
     expect(seqs.length).toBe(0)
   })
 
   test('migration to an existing seq without source', async () => {
-    await pg.raw('CREATE TABLE couchdb_progress(seq varchar)')
-    await pg('couchdb_progress').insert({seq:'44'})
+    const conn = db(PG_URL)
+    await conn.raw('CREATE TABLE couchdb_progress(seq varchar)')
+    await conn('couchdb_progress').insert({seq:'44'})
     await migrate(PG_URL)
     const seqs = (await pg.raw('select * from couchdb_progress')).rows
     expect(seqs.length).toBe(1)

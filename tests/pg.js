@@ -1,9 +1,10 @@
 import migrate from '../lib/pgmigration'
 import Pouch from '../lib/Pouch'
 import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/Pg'
-import pgconnection from '../lib/pgconnection'
+import pgconnection, {ensureDatabaseExists} from '../lib/pgconnection'
 
 import couchdocs from './mocks/docs.json'
+
 
 describe('pg', () => {
   const COUCH_URL = 'http://localhost:5984/something'
@@ -11,7 +12,16 @@ describe('pg', () => {
 
   const pg = new Pg(PG_URL, COUCH_URL)
 
-  beforeEach(async () => await pg.drop())
+  beforeEach(async () => {
+    try {
+      await pg.drop()
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }
+    }
+    await ensureDatabaseExists(PG_URL)
+  })
   afterEach(async () => await pg.drop())
   afterAll(async () => await pg.destroy())
 
