@@ -111,6 +111,8 @@ describe('pg', () => {
       expect(sequences.length).toBe(1)
       expect(sequences[0].source).toBe(DEFAULT_SOURCE)
       expect(sequences[0].seq).toBe('44')
+
+      expect((await pg.seq())).toBe('44')
     })
   })
 })
