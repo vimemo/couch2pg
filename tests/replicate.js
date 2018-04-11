@@ -14,10 +14,16 @@ describe('replicate', () => {
   let pouch
 
   const cleanUp = async () => {
-    await pg.drop()
-    if(pouch) {
-      await pouch.db.destroy()
-      pouch = null
+    try {
+      await pg.drop()
+      if(pouch) {
+        await pouch.db.destroy()
+        pouch = null
+      }
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }      
     }
   }
 
