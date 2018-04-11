@@ -4,20 +4,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/vimemo/couch2pg/badge.svg?branch=master)](https://coveralls.io/github/vimemo/couch2pg?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-### Refactor motivation
-
-Started just to understand the code and got carried away with the possibilities. Want to at least have a conversation about:
-
-- jest vs chai/mocha/sinon
-- promises vs async/await
-- functions vs classes
-- underscore vs ramda
-- imperative vs declarative
-- etc
-
 ### TODO
 
-- integrate with travis
 - seed data for integration test rather than using actual local db
 - cli/env
 

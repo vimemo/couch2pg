@@ -19,7 +19,7 @@ describe('migration', () => {
         throw err
       }
     }
-    ensureDatabaseExists(PG_URL)
+    await ensureDatabaseExists(PG_URL)
   })
   afterEach(() => cleanUp())
   afterAll(() => {
@@ -29,7 +29,7 @@ describe('migration', () => {
       if(!err.message.includes('does not exist')){//db does not exist
         throw err
       }
-    }      
+    }
   })
 
   test('migration creates tables and indexes', async () => {
