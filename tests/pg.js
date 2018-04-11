@@ -1,6 +1,6 @@
 import migrate from '../lib/pgmigration'
 import Pouch from '../lib/Pouch'
-import Pg from '../lib/Pg'
+import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/Pg'
 import pgconnection from '../lib/pgconnection'
 
 import couchdocs from './mocks/docs.json'
@@ -8,7 +8,7 @@ import couchdocs from './mocks/docs.json'
 describe('pg', () => {
   const COUCH_URL = 'http://admin:pass@localhost:5984/something'
   const PG_URL = 'postgres://localhost:5432/pg-test'
-  const DEFAULT_DATABASE = 'default-database'
+
   const pg = new Pg(PG_URL, COUCH_URL)
 
   beforeEach(async () => await pg.drop())
@@ -63,8 +63,8 @@ describe('pg', () => {
       await migrate(PG_URL)
       // Zero sequences
       expect((await pg.sequences()).length).toBe(0)
-      // Setup an existing sequence with default-database
-      await pg.db('couchdb_progress').insert({seq: '44', source: DEFAULT_DATABASE})
+      // Setup an existing sequence with default-source
+      await pg.db(SEQUENCE_DB).insert({seq: '44', source: DEFAULT_SOURCE})
 
       // Requesting sequence for a given url returns the detault sequence
       // and that sequence source gets updated with this source
@@ -94,12 +94,12 @@ describe('pg', () => {
       let sequences = await pg.sequences()
       expect(sequences.length).toBe(0)
 
-      await pg.db('couchdb_progress').insert({seq: '44', source: DEFAULT_DATABASE})
+      await pg.db(SEQUENCE_DB).insert({seq: '44', source: DEFAULT_SOURCE})
 
       await migrate(PG_URL)
       sequences = await pg.sequences()
       expect(sequences.length).toBe(1)
-      expect(sequences[0].source).toBe(DEFAULT_DATABASE)
+      expect(sequences[0].source).toBe(DEFAULT_SOURCE)
       expect(sequences[0].seq).toBe('44')
     })
   })

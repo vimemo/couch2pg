@@ -1,6 +1,6 @@
 import {splitAt} from 'ramda'
 import Pouch from '../lib/pouch'
-import Pg from '../lib/pg'
+import Pg, {SEQUENCE_DB} from '../lib/pg'
 import db from '../lib/pgconnection'
 import migrate from '../lib/pgmigration'
 import Couch2Pg from '../lib/couch2pg'
@@ -64,18 +64,17 @@ describe('replicate', () => {
 
       test('after updates, deletes, etc', async () => {
         await migrate(PG_URL)
+        expect((await pg.sequences()).length).toBe(0)
 
-        await pg.db('couchdb_progress').insert({seq: 30, source: 'default-source'})
+        await pg.db(SEQUENCE_DB).insert({seq: 30, source: 'couch1'})
         await migrate(PG_URL)
 
-        let row = (await pg.db.raw('select * from couchdb_progress')).rows[0]
-        expect(row.seq).toBe('30')
-        expect(row.source).toEqual('default-source')
+        const seqs = await pg.sequences()
+        expect(seqs.length).toBe(1)
+        expect(seqs[0].seq).toBe('30')
+        expect(seqs[0].source).toEqual('couch1')
 
         await new Couch2Pg(pouch, pg).replicate()
-
-        // row = (await pg.db.raw('select * from couchdb_progress')).rows[0]
-        // expect(row.source).toEqual('http://localhost:5984/couchtest')
 
         expect(await pg.count()).toEqual(15)
         expect(await pg.count()).toEqual(await pouch.count())
