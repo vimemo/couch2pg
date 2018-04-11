@@ -1,7 +1,7 @@
 import {splitAt} from 'ramda'
 import Pouch from '../lib/pouch'
 import Pg, {SEQUENCE_DB} from '../lib/pg'
-import db from '../lib/pgconnection'
+import db, {ensureDatabaseExists} from '../lib/pgconnection'
 import migrate from '../lib/pgmigration'
 import Couch2Pg from '../lib/couch2pg'
 import * as random from './mocks/random'
@@ -20,6 +20,7 @@ describe('replicate', () => {
         await pouch.db.destroy()
         pouch = null
       }
+      ensureDatabaseExists(PG_URL)
     } catch(err) {
       if(!err.message.includes('does not exist')){//db does not exist
         throw err
@@ -29,7 +30,15 @@ describe('replicate', () => {
 
   beforeEach(() => cleanUp())
   afterEach(() => cleanUp())
-  afterAll(() => pg.destroy())
+  afterAll(() => {
+    try {
+      pg.destroy()
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }
+    }      
+  })
 
   describe('replication', () => {
     beforeEach(async () => {
