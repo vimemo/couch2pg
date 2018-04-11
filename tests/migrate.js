@@ -22,7 +22,15 @@ describe('migration', () => {
     ensureDatabaseExists(PG_URL)
   })
   afterEach(() => cleanUp())
-  afterAll(() => pg.destroy())
+  afterAll(() => {
+    try {
+      pg.destroy()
+    } catch(err) {
+      if(!err.message.includes('does not exist')){//db does not exist
+        throw err
+      }
+    }      
+  })
 
   test('migration creates tables and indexes', async () => {
     const migrations = await migrate(PG_URL)
