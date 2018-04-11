@@ -4,7 +4,7 @@ import docs from './mocks/docs.json'
 
 describe('couch', () => {
   const DB_NAME = 'couch-test'
-  const COUCH_URL = `http://admin:pass@localhost:5984/${DB_NAME}`
+  const COUCH_URL = `http://localhost:5984/${DB_NAME}`
   const pouch = new Pouch(COUCH_URL)
 
   const cleanUp = async () => await new PouchDB(COUCH_URL).destroy()

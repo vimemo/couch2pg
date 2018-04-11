@@ -6,7 +6,7 @@ import pgconnection from '../lib/pgconnection'
 import couchdocs from './mocks/docs.json'
 
 describe('pg', () => {
-  const COUCH_URL = 'http://admin:pass@localhost:5984/something'
+  const COUCH_URL = 'http://localhost:5984/something'
   const PG_URL = 'postgres://localhost:5432/pg-test'
 
   const pg = new Pg(PG_URL, COUCH_URL)
@@ -76,7 +76,7 @@ describe('pg', () => {
 
       // Requesting a sequence for a second url, creates a new sequence
       // record with seq:0 and source: second-url
-      const pg2 = new Pg(PG_URL, 'http://admin:pass@localhost:5984/secondpgdb')
+      const pg2 = new Pg(PG_URL, 'http://localhost:5984/secondpgdb')
       expect(await pg2.seq()).toBe(0)
       expect(await pg.seq()).toBe('44')
       sequences = await pg.sequences()
