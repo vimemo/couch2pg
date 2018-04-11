@@ -20,12 +20,12 @@ describe('replicate', () => {
         await pouch.db.destroy()
         pouch = null
       }
-      await ensureDatabaseExists(PG_URL)
     } catch(err) {
       if(!err.message.includes('does not exist')){//db does not exist
         throw err
       }
     }
+    await ensureDatabaseExists(PG_URL)
   }
 
   beforeEach(() => cleanUp())
