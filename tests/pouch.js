@@ -20,8 +20,9 @@ describe('couch', () => {
       expect.assertions(1)
     })
 
-    test('docs, count', async () => {
+    test('docs, sortedDocs, count', async () => {
       expect((await pouch.docs())[0].doc.rev).toBe(docs[0].doc.rev)
+      expect((await pouch.sortedDocs())[0].doc.rev).toBe(docs[0].doc.rev)
       expect((await pouch.count()) === 2).toBe(true)
     })
 

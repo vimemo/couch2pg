@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`pg insert, docs, delete, count 1`] = `
+exports[`pg insert, docs, sortedDocs, delete, count 1`] = `
 Array [
   anonymous {
     "doc": Object {

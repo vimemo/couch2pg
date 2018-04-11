@@ -31,13 +31,18 @@ describe('pg', () => {
     expect.assertions(2)
   })
 
-  test('insert, docs, delete, count', async () => {
+  test('insert, docs, sortedDocs, delete, count', async () => {
     await migrate(PG_URL)
 
     await pg.insert(couchdocs)
+
+    const sortedDocs = await pg.sortedDocs()
+    expect(sortedDocs[0]._id).toEqual(couchdocs[0].doc._id)
+
     const docs = await pg.docs()
     expect(docs.length).toBe(2)
     expect(docs).toMatchSnapshot()
+
     await pg.delete([docs[0].doc._id])
     expect(await pg.count()).toBe(1)
     await pg.delete([])
