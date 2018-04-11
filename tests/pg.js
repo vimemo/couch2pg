@@ -1,6 +1,6 @@
 import migrate from '../lib/pgmigration'
 import Pouch from '../lib/pouch'
-import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/Pg'
+import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/pg'
 import pgconnection, {ensureDatabaseExists} from '../lib/pgconnection'
 
 import couchdocs from './mocks/docs.json'
