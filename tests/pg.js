@@ -1,5 +1,5 @@
 import migrate from '../lib/pgmigration'
-import Pouch from '../lib/Pouch'
+import Pouch from '../lib/pouch'
 import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/Pg'
 import pgconnection, {ensureDatabaseExists} from '../lib/pgconnection'
 
@@ -104,7 +104,7 @@ describe('pg', () => {
       expect(sequences[1].seq).toBe('0')
     })
 
-    test('migration to an existing system', async() => {
+    test('migrating an existing system', async() => {
       await migrate(PG_URL)
       let sequences = await pg.sequences()
       expect(sequences.length).toBe(0)
