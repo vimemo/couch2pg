@@ -1,11 +1,5 @@
 module.exports = {
-  displayName: 'test:jest',
-  // moduleNameMapper: {
-  //
-  // },
-  // transform: {
-  //   '^.+\\.js$': 'babel-jest'
-  // },
+  displayName: 'jest:test',
   'testMatch': ['<rootDir>/tests/**/*.js'],
   'testEnvironment': 'node',
   'collectCoverageFrom': ['<rootDir>/lib/**/*.{js}'],

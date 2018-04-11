@@ -1,4 +1,3 @@
-import R from 'ramda'
 import * as random from './mocks/random'
 
 describe('random', () => {

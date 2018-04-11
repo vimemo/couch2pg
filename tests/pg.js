@@ -59,7 +59,7 @@ describe('pg', () => {
   })
 
   describe('sequences for different scenarios', () => {
-    test('existing system with default database', async () => {
+    test('existing system with default source sequence', async () => {
       await migrate(PG_URL)
       // Zero sequences
       expect((await pg.sequences()).length).toBe(0)
