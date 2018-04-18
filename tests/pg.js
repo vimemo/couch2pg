@@ -10,7 +10,7 @@ describe('pg', () => {
   const COUCH_URL = `${process.env.TEST_COUCH_URL}/something`
   const PG_URL = `${process.env.TEST_PG_URL}/pgtest`
 
-  const pg = new Pg(PG_URL, COUCH_URL)
+  const pg = new Pg(PG_URL, 'http://admin:pass@localhost:5984/something')
 
   beforeEach(async () => {
     try {
@@ -59,7 +59,7 @@ describe('pg', () => {
 
   describe('sequences', () => {
     const PG2_URL = `${process.env.TEST_PG_URL}/pgtest2`
-    const pg2 = new Pg(PG2_URL, 'http://localhost:5984/secondpgdb')
+    const pg2 = new Pg(PG2_URL, 'http://admin:pass@localhost:5984/secondpgdb')
 
     beforeEach(async () => {
       try {
@@ -107,7 +107,7 @@ describe('pg', () => {
 
       // Requesting a sequence for a second url, creates a new sequence
       // record with seq:0 and source: second-url
-      const pg2 = new Pg(PG_URL, 'http://localhost:5984/secondpgdb')
+      const pg2 = new Pg(PG_URL, 'http://admin:pass@localhost:5984/secondpgdb')
       expect(await pg2.seq()).toBe(0)
       expect(await pg.seq()).toBe('44')
       sequences = await pg.sequences()

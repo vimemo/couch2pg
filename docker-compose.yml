@@ -19,6 +19,7 @@ services:
       - ./lib:/usr/app/lib
       - ./migrations:/usr/app/migrations
       - ./tests:/usr/app/tests
+      - ./.env:/usr/app/.env
     depends_on:
       - couch
       - postgres

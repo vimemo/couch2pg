@@ -8,6 +8,7 @@
   "scripts": {
     "ci": "jest --coverage --projects jest-*.config.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test": "jest --coverage --projects jest-*.config.js",
+    "test-coverage": "jest --coverage",
     "watch:test": "jest --coverage --projects jest-*.config.js --watch",
     "build": "babel ./lib -d ./dist",
     "start": "node ./dist",
