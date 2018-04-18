@@ -2,30 +2,41 @@
 
 [![Build Status](https://travis-ci.org/vimemo/couch2pg.svg?branch=master)](https://travis-ci.org/vimemo/couch2pg)
 [![Coverage Status](https://coveralls.io/repos/github/vimemo/couch2pg/badge.svg?branch=master)](https://coveralls.io/github/vimemo/couch2pg?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/617b91fac7c0eeaed2d3/maintainability)](https://codeclimate.com/github/vimemo/couch2pg/maintainability)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ### TODO
 
-- seed data for integration test rather than using actual local db
 - cli/env
 
-### Development Setup
+# Running tests
+
+docker-compose run tests yarn test
+
+# Running test with coverage
+
+docker-compose run tests yarn test --coverage
+
+# Running test watcher
+
+docker-compose run tests yarn test --watchAll
+
+# Running against local databases
 
 ```
-yarn
-```
 
-### Running Tests
-
-```
-yarn test
-yarn watch:test
-```
-
-### Code coverage
+export TEST_PG_URL=postgres://localhost:5432
+export TEST_COUCH_URL=http://admin:pass@localhost:5984
+yarn test --coverage --projects jest-*.config.js
 
 ```
-file:///<your-dir>/couch2pg/coverage/lcov-report/index.html
+
+# Helpful Commands
+
+```
+
+docker-compose build/ps/down/rm
+
 ```
 
 ### Notes

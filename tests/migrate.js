@@ -1,7 +1,7 @@
 import migrate from '../lib/pgmigration'
 import db, {ensureDatabaseExists} from '../lib/pgconnection'
 
-const PG_URL = 'postgres://localhost:5432/migration-test'
+const PG_URL = `${process.env.TEST_PG_URL}/migration-test`
 const pg = db(PG_URL)
 
 describe('migration', () => {

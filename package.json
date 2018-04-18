@@ -28,6 +28,7 @@
     "babel-jest": "^22.4.3",
     "babel-preset-env": "^1.6.1",
     "coveralls": "^3.0.0",
+    "curl-request": "1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-jest": "^21.15.0",
@@ -35,27 +36,29 @@
     "jest": "^22.4.3",
     "jest-runner-eslint": "^0.4.0",
     "jest-runner-prettier": "^0.2.2",
+    "prettier": "1.12.1",
     "underscore": "^1.8.3"
   },
   "jest": {
+    "testEnvironment": "node",
     "testMatch": [
       "<rootDir>/tests/**/*.js"
     ],
-    "testEnvironment": "node",
     "collectCoverageFrom": [
       "lib/**/*.{js}"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 60,
-        "functions": 90,
-        "lines": 90,
-        "statements": 90
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
       }
     },
     "testPathIgnorePatterns": [
       "mocks"
     ],
-    "verbose": true
+    "verbose": true,
+    "globalSetup": "<rootDir>/setup.js"
   }
 }

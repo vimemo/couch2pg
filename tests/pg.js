@@ -7,8 +7,8 @@ import couchdocs from './mocks/docs.json'
 
 
 describe('pg', () => {
-  const COUCH_URL = 'http://localhost:5984/something'
-  const PG_URL = 'postgres://localhost:5432/pgtest'
+  const COUCH_URL = `${process.env.TEST_COUCH_URL}/something`
+  const PG_URL = `${process.env.TEST_PG_URL}/pgtest`
 
   const pg = new Pg(PG_URL, COUCH_URL)
 
@@ -58,7 +58,7 @@ describe('pg', () => {
   })
 
   describe('sequences', () => {
-    const PG2_URL = 'postgres://localhost:5432/pgtest2'
+    const PG2_URL = `${process.env.TEST_PG_URL}/pgtest2`
     const pg2 = new Pg(PG2_URL, 'http://localhost:5984/secondpgdb')
 
     beforeEach(async () => {

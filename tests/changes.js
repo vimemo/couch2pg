@@ -1,8 +1,7 @@
 import _ from 'underscore'
 import R from 'ramda'
 
-// Just to start the conversation about
-// underscore/ramda choice
+// Comparing underscore vs ramda. Currying all the way.
 describe('underscore vs ramda', () => {
   let docs = null
   beforeEach(() => {

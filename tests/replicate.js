@@ -7,8 +7,8 @@ import Couch2Pg from '../lib/couch2pg'
 import * as random from './mocks/random'
 
 describe('replicate', () => {
-  const COUCH_URL = 'http://localhost:5984/couchtest'
-  const PG_URL = 'postgres://localhost:5432/replicatetest'
+  const COUCH_URL = `${process.env.TEST_COUCH_URL}/couchtest`
+  const PG_URL = `${process.env.TEST_PG_URL}/replicatetest`
 
   const pg = new Pg(PG_URL, COUCH_URL)
   let pouch
