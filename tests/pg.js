@@ -1,7 +1,7 @@
 import migrate from '../lib/pgmigration'
 import Pouch from '../lib/pouch'
 import Pg, {DEFAULT_SOURCE, SEQUENCE_DB} from '../lib/pg'
-import pgconnection, {ensureDatabaseExists} from '../lib/pgconnection'
+import {ensureDatabaseExists} from '../lib/pgconnection'
 
 import couchdocs from './mocks/docs.json'
 
@@ -70,7 +70,7 @@ describe('pg', () => {
         }
       }
     })
-    afterAll(async () => await pg2.destroy())
+    afterAll(async () => { await pg2.destroy() })
 
     test('get and update sequences', async () => {
       await migrate(PG_URL)
@@ -111,6 +111,7 @@ describe('pg', () => {
       expect(await pg2.seq()).toBe(0)
       expect(await pg.seq()).toBe('44')
       sequences = await pg.sequences()
+      await pg2.destroy()
       expect(sequences.length).toBe(2)
       expect(sequences[0].source).toBe(pg.source)
       expect(pg.source).toBe('localhost:5984/something')

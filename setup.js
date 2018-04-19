@@ -18,7 +18,7 @@ const waitForCouchToBecomeAvailable = async (url, timeout, maxRetries) => {
       const {statusCode} = await curl.get(url)
       if(statusCode === 200) {
         console.log(`- Couch [${url}] is now avaliable.`)
-        break;
+        break
       }
     } catch(err) {}
     console.log(`====> Waiting on couch [${url}] to become available.`)
@@ -38,7 +38,7 @@ const waitForPgToBecomeAvailable = async (url, timeout, maxRetries) => {
       await conn.raw('SELECT * FROM pg_catalog.pg_tables')
       console.log(`- pg [${url}] is now avaliable.`)
       await conn.destroy()
-      break;
+      break
     } catch(err) {
       if(err.code !== 'ECONNREFUSED') {
         process.exit(1)
