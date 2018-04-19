@@ -26,3 +26,4 @@ services:
     environment:
       TEST_COUCH_URL: http://${COUCH_ADMIN}:${COUCH_PASS}@couch:5984
       TEST_PG_URL: postgres://postgres:postgres@postgres:5432
+      COVERALLS_REPO_TOKEN: ${COVERALLS_REPO_TOKEN}
